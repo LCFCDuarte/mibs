@@ -1,0 +1,1098 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 2e502f8b27b65e25ae68900291286b7e
+    name: Templates/Network devices
+  templates:
+  - template: NETGEAR FastPath SNMP by MIB
+    name: NETGEAR FastPath SNMP by MIB
+    description: NETGEAR XS716T firmware 7.0.0.20 - SNMPv2c template for Zabbix 7.0.
+      Uses NETGEAR FastPath/BoxServices MIB objects supplied with the firmware. Requires
+      the vendor MIBs and RFC MIBs to be installed on the Zabbix server/proxy.
+    groups:
+    - name: Templates/Network devices
+    tags:
+    - tag: class
+      value: network
+    - tag: vendor
+      value: NETGEAR
+    - tag: source
+      value: xs7xxtv7.0.0.20-mibs
+    macros:
+    - macro: '{$SNMP_COMMUNITY}'
+      value: public
+      description: SNMPv2c community; override at host level.
+    - macro: '{$SNMP_PORT}'
+      value: '161'
+    - macro: '{$IFADMINSTATUS}'
+      value: '1'
+      description: Only alert if interface is administratively up.
+    - macro: '{$IF_ERRORS_MAX}'
+      value: '0'
+      description: Maximum number of new interface errors between checks before alerting.
+    - macro: '{$TEMP_WARN}'
+      value: '70'
+    - macro: '{$TEMP_CRIT}'
+      value: '80'
+    - macro: '{$LLDP_DISCOVERY}'
+      value: '1'
+    - macro: '{$VENDOR_MIBS}'
+      value: '1'
+    items:
+    - name: System description
+      type: SNMP_AGENT
+      key: system.descr
+      delay: 1h
+      history: 7d
+      trends: '0'
+      value_type: TEXT
+      snmp_oid: 1.3.6.1.2.1.1.1.0
+      tags:
+      - tag: component
+        value: system
+      - tag: scope
+        value: availability
+      uuid: 125e4616046852f4b7cc6f58cce43107
+    - name: System object ID
+      type: SNMP_AGENT
+      key: system.objectid
+      delay: 1h
+      history: 7d
+      trends: '0'
+      value_type: TEXT
+      snmp_oid: 1.3.6.1.2.1.1.2.0
+      tags:
+      - tag: component
+        value: system
+      - tag: scope
+        value: availability
+      uuid: 0d99bdd31e065e0ebbdefe0693d60c09
+    - name: System uptime
+      type: SNMP_AGENT
+      key: system.uptime
+      delay: 1m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: 1.3.6.1.2.1.1.3.0
+      units: s
+      tags:
+      - tag: component
+        value: system
+      - tag: scope
+        value: availability
+      uuid: 8ee6a78eb44c59488ce935d79496efa8
+      preprocessing:
+      - type: MULTIPLIER
+        parameters:
+        - '0.01'
+    - name: System contact
+      type: SNMP_AGENT
+      key: system.contact
+      delay: 1h
+      history: 7d
+      trends: '0'
+      value_type: TEXT
+      snmp_oid: 1.3.6.1.2.1.1.4.0
+      tags:
+      - tag: component
+        value: system
+      - tag: scope
+        value: availability
+      uuid: 4615c238ab6e5b1d9875890b1b10f2fa
+    - name: System name
+      type: SNMP_AGENT
+      key: system.name
+      delay: 1h
+      history: 7d
+      trends: '0'
+      value_type: TEXT
+      snmp_oid: 1.3.6.1.2.1.1.5.0
+      tags:
+      - tag: component
+        value: system
+      - tag: scope
+        value: availability
+      uuid: c081c7e0b4425d4ab1a81571960619a4
+    - name: System location
+      type: SNMP_AGENT
+      key: system.location
+      delay: 1h
+      history: 7d
+      trends: '0'
+      value_type: TEXT
+      snmp_oid: 1.3.6.1.2.1.1.6.0
+      tags:
+      - tag: component
+        value: system
+      - tag: scope
+        value: availability
+      uuid: 2beec6850bd254d29bbed133dc98f00b
+    - name: SNMP input packets
+      type: SNMP_AGENT
+      key: snmp.in.pkts
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: 1.3.6.1.2.1.11.1.0
+      units: packets
+      tags:
+      - tag: component
+        value: system
+      - tag: scope
+        value: availability
+      uuid: 8c4840d751735b27a249d6ebf41c7549
+    - name: SNMP input bad community names
+      type: SNMP_AGENT
+      key: snmp.in.badCommunityNames
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: 1.3.6.1.2.1.11.4.0
+      units: packets
+      tags:
+      - tag: component
+        value: system
+      - tag: scope
+        value: availability
+      uuid: deeb8d94e20953389ccd92bf54325fd2
+    - name: SNMP output packets
+      type: SNMP_AGENT
+      key: snmp.out.pkts
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: 1.3.6.1.2.1.11.2.0
+      units: packets
+      tags:
+      - tag: component
+        value: system
+      - tag: scope
+        value: availability
+      uuid: 521a3158adff57c78809fc73fdab5a87
+    - name: Temperature normal minimum
+      type: SNMP_AGENT
+      key: box.temp.normal.min
+      delay: 10m
+      history: 7d
+      trends: 90d
+      value_type: FLOAT
+      snmp_oid: NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesNormalTempRangeMin.0
+      units: C
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 22c7792838ea5df7847a8d681f5cd4e7
+    - name: Temperature normal maximum
+      type: SNMP_AGENT
+      key: box.temp.normal.max
+      delay: 10m
+      history: 7d
+      trends: 90d
+      value_type: FLOAT
+      snmp_oid: NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesNormalTempRangeMax.0
+      units: C
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: d4c900505f9952f4a22f2553e6fcb08b
+    - name: SNTP client mode
+      type: SNMP_AGENT
+      key: sntp.client.mode
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-SNTP-CLIENT-MIB::agentSntpClientMode.0
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: a35b83cc2e1b568985e161f73ae2bbd6
+    - name: SNTP last attempt status
+      type: SNMP_AGENT
+      key: sntp.client.last.status
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-SNTP-CLIENT-MIB::agentSntpClientLastAttemptStatus.0
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 71c57e378aed5dd184e1f6f158b6423e
+    - name: SNTP server stratum
+      type: SNMP_AGENT
+      key: sntp.server.stratum
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-SNTP-CLIENT-MIB::agentSntpClientServerStratum.0
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 0afcf2a820025b68bed424c85c1d7801
+    - name: Log messages received
+      type: SNMP_AGENT
+      key: logging.messages.received
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-LOGGING-MIB::agentLogMessagesReceived.0
+      units: messages
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: dd5202a3569051a3bdb3fb29d935fe7e
+    - name: Log messages dropped
+      type: SNMP_AGENT
+      key: logging.messages.dropped
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-LOGGING-MIB::agentLogMessagesDropped.0
+      units: messages
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 1344db95ff81575abefc443d90739505
+    - name: Log messages relayed
+      type: SNMP_AGENT
+      key: logging.messages.relayed
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-LOGGING-MIB::agentLogSyslogMessagesRelayed.0
+      units: messages
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 79ddc6fd00455dddb38a5bee1b436730
+    - name: In-memory log count
+      type: SNMP_AGENT
+      key: logging.memory.count
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-LOGGING-MIB::agentLogInMemoryLogCount.0
+      units: messages
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 104f6a15d78251738e697547a62dca65
+    - name: Green Ethernet energy saved
+      type: SNMP_AGENT
+      key: green.energy.saved
+      delay: 15m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-GREENETHERNET-PRIVATE-MIB::agentGreenStackCumEnergySaving.0
+      units: Wh
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: b9831ae765705614934412e81f1ea2a4
+    - name: Green Ethernet power consumption
+      type: SNMP_AGENT
+      key: green.power.consumption
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: FLOAT
+      snmp_oid: NETGEAR-GREENETHERNET-PRIVATE-MIB::agentGreenStackCurPowerConsumption.0
+      units: W
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 064046611d2154d786daec1f86f3277e
+      preprocessing:
+      - type: MULTIPLIER
+        parameters:
+        - '0.001'
+    - name: Green Ethernet power saving
+      type: SNMP_AGENT
+      key: green.power.saving
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-GREENETHERNET-PRIVATE-MIB::agentGreenStackPowerSaving.0
+      units: '%'
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 43a541d2360a552c8351ed65bcb0cbbd
+    - name: Routing heap utilization
+      type: SNMP_AGENT
+      key: routing.heap.utilization
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-ROUTING-PRIVATE-MIB::agentRoutingHeapUtilization.0
+      units: '%'
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 55dba1613f995357869a8e8b1bc8e323
+    - name: Port-security violation count
+      type: SNMP_AGENT
+      key: portsecurity.violations
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-PORTSECURITY-PRIVATE-MIB::agentPortSecurityViolationCount.0
+      units: violations
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: a83e5dc5ca405ad293ac6c0be575261c
+    - name: RADIUS access requests
+      type: SNMP_AGENT
+      key: radius.access.requests
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-RADIUS-AUTH-CLIENT-MIB::agentRadiusAuthClientAccessRequests.0
+      units: requests
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 06810e68a5d6561c8b56651031b82a54
+    - name: RADIUS access rejects
+      type: SNMP_AGENT
+      key: radius.access.rejects
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-RADIUS-AUTH-CLIENT-MIB::agentRadiusAuthClientAccessRejects.0
+      units: rejects
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: d20724683e9750289332ddb034bb7800
+    - name: TACACS authentication failures
+      type: SNMP_AGENT
+      key: tacacs.auth.failures
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: TACACS-CLIENT-MIB::tacacsAuthenFails.0
+      units: failures
+      tags:
+      - tag: component
+        value: vendor
+      - tag: scope
+        value: performance
+      uuid: 3c6f1d7705f154f0b76eeb76b1c2f27c
+    - name: SNMP engine time
+      type: SNMP_AGENT
+      key: snmp.engine.time
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: 1.3.6.1.6.3.10.2.1.3.0
+      tags:
+      - tag: component
+        value: system
+      units: s
+      uuid: 43d83c5b27f557ed85a4786cb13d4a09
+    - name: CPU process free memory
+      type: SNMP_AGENT
+      key: cpu.process.memory.free
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-SWITCHING-MIB::agentSwitchCpuProcessMemFree.0
+      tags:
+      - tag: component
+        value: cpu-memory
+      units: bytes
+      uuid: cd3410cc0c6c53ddba8d3207e5568f04
+      preprocessing:
+      - type: MULTIPLIER
+        parameters:
+        - '1024'
+    - name: CPU process available memory
+      type: SNMP_AGENT
+      key: cpu.process.memory.available
+      delay: 5m
+      history: 7d
+      trends: 90d
+      value_type: UNSIGNED
+      snmp_oid: NETGEAR-SWITCHING-MIB::agentSwitchCpuProcessMemAvailable.0
+      tags:
+      - tag: component
+        value: cpu-memory
+      units: bytes
+      uuid: 6384bab9cc3a5c81843d4a7a6e3914dc
+      preprocessing:
+      - type: MULTIPLIER
+        parameters:
+        - '1024'
+    discovery_rules:
+    - name: Interfaces discovery (IF-MIB)
+      type: SNMP_AGENT
+      key: net.if.discovery
+      delay: 1h
+      snmp_oid: discovery[{#IFINDEX},1.3.6.1.2.1.2.2.1.1,{#IFNAME},1.3.6.1.2.1.31.1.1.1.1,{#IFALIAS},1.3.6.1.2.1.31.1.1.1.18,{#IFADMIN},1.3.6.1.2.1.2.2.1.7]
+      item_prototypes:
+      - name: 'Interface {#IFNAME}: admin status'
+        type: SNMP_AGENT
+        key: net.if.admin[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: 1.3.6.1.2.1.2.2.1.7.{#IFINDEX}
+        tags:
+        - tag: component
+          value: interface
+        description: ifAdminStatus
+        uuid: 6612dc0fc49d58dca145b946c406d5cd
+      - name: 'Interface {#IFNAME}: operational status'
+        type: SNMP_AGENT
+        key: net.if.oper[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: 1.3.6.1.2.1.2.2.1.8.{#IFINDEX}
+        tags:
+        - tag: component
+          value: interface
+        description: 'ifOperStatus: 1 up, 2 down, 3 testing, 4 unknown, 5 dormant,
+          6 notPresent, 7 lowerLayerDown'
+        uuid: cf4568c74a535a45a28fac00d140dbc5
+      - name: 'Interface {#IFNAME}: alias'
+        type: SNMP_AGENT
+        key: net.if.alias[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: TEXT
+        snmp_oid: 1.3.6.1.2.1.31.1.1.1.18.{#IFINDEX}
+        tags:
+        - tag: component
+          value: interface
+        uuid: 9a93ed1f07905f3f95f85abf4603a6ee
+      - name: 'Interface {#IFNAME}: MTU'
+        type: SNMP_AGENT
+        key: net.if.mtu[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: 1.3.6.1.2.1.2.2.1.4.{#IFINDEX}
+        units: bytes
+        tags:
+        - tag: component
+          value: interface
+        uuid: 8aa9cbcd97e6593399db8cbefe857de3
+      - name: 'Interface {#IFNAME}: speed'
+        type: SNMP_AGENT
+        key: net.if.speed[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: 1.3.6.1.2.1.31.1.1.1.15.{#IFINDEX}
+        units: Mbps
+        tags:
+        - tag: component
+          value: interface
+        uuid: f7ea98a1dcd557d6a4fa003cec59ece7
+      - name: 'Interface {#IFNAME}: inbound bps'
+        type: SNMP_AGENT
+        key: net.if.in.bps[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: FLOAT
+        snmp_oid: 1.3.6.1.2.1.31.1.1.1.6.{#IFINDEX}
+        units: bps
+        tags:
+        - tag: component
+          value: interface
+        preprocessing:
+        - type: CHANGE_PER_SECOND
+          parameters:
+          - ''
+        - type: MULTIPLIER
+          parameters:
+          - '8'
+        uuid: 28bdf896465f52d5a1e03fd161f1eac3
+      - name: 'Interface {#IFNAME}: outbound bps'
+        type: SNMP_AGENT
+        key: net.if.out.bps[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: FLOAT
+        snmp_oid: 1.3.6.1.2.1.31.1.1.1.10.{#IFINDEX}
+        units: bps
+        tags:
+        - tag: component
+          value: interface
+        preprocessing:
+        - type: CHANGE_PER_SECOND
+          parameters:
+          - ''
+        - type: MULTIPLIER
+          parameters:
+          - '8'
+        uuid: a81122a7a1f454b9a17e4dae4db5abf6
+      - name: 'Interface {#IFNAME}: input errors'
+        type: SNMP_AGENT
+        key: net.if.in.errors[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: 1.3.6.1.2.1.2.2.1.14.{#IFINDEX}
+        units: errors
+        tags:
+        - tag: component
+          value: interface
+        uuid: d36440a2dc365ca8b2658fdae782de2e
+      - name: 'Interface {#IFNAME}: output errors'
+        type: SNMP_AGENT
+        key: net.if.out.errors[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: 1.3.6.1.2.1.2.2.1.20.{#IFINDEX}
+        units: errors
+        tags:
+        - tag: component
+          value: interface
+        uuid: 7cb4786848625bde9294adc36bf3c62b
+      - name: 'Interface {#IFNAME}: input discards'
+        type: SNMP_AGENT
+        key: net.if.in.discards[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: 1.3.6.1.2.1.2.2.1.13.{#IFINDEX}
+        units: packets
+        tags:
+        - tag: component
+          value: interface
+        uuid: a1497b02038f5c3c9534ece0fe5bb8b5
+      - name: 'Interface {#IFNAME}: output discards'
+        type: SNMP_AGENT
+        key: net.if.out.discards[{#IFINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: 1.3.6.1.2.1.2.2.1.19.{#IFINDEX}
+        units: packets
+        tags:
+        - tag: component
+          value: interface
+        uuid: 7f34e4d0e2715415b66739446e696884
+      trigger_prototypes:
+      - name: 'Interface {#IFNAME}: operationally down'
+        expression: last(/NETGEAR FastPath SNMP by MIB/net.if.oper[{#IFINDEX}])=2
+          and last(/NETGEAR FastPath SNMP by MIB/net.if.admin[{#IFINDEX}])={$IFADMINSTATUS}
+        priority: HIGH
+        tags:
+        - tag: scope
+          value: availability
+        description: The interface is enabled but operationally down.
+        uuid: c437ab57c10f57f8bea6ebdfb2869180
+      - name: 'Interface {#IFNAME}: input errors'
+        expression: change(/NETGEAR FastPath SNMP by MIB/net.if.in.errors[{#IFINDEX}])>{$IF_ERRORS_MAX}
+        priority: WARNING
+        tags:
+        - tag: scope
+          value: performance
+        description: Input errors exceed configured threshold.
+        uuid: 8a7d39bc1c605b3ab4ce77087e8f1bf6
+      - name: 'Interface {#IFNAME}: output errors'
+        expression: change(/NETGEAR FastPath SNMP by MIB/net.if.out.errors[{#IFINDEX}])>{$IF_ERRORS_MAX}
+        priority: WARNING
+        tags:
+        - tag: scope
+          value: performance
+        description: Output errors exceed configured threshold.
+        uuid: 71fc8ff7a5cf54249bd4e7b5e7402d54
+      graph_prototypes:
+      - name: 'Interface {#IFNAME}: traffic'
+        width: '900'
+        height: '200'
+        graph_items:
+        - drawtype: SINGLE_LINE
+          color: 42A5F5
+          item:
+            host: NETGEAR FastPath SNMP by MIB
+            key: net.if.in.bps[{#IFINDEX}]
+        - drawtype: SINGLE_LINE
+          color: EF5350
+          item:
+            host: NETGEAR FastPath SNMP by MIB
+            key: net.if.out.bps[{#IFINDEX}]
+        uuid: 4d74c35409e054c5a4eeb8050eb6f2d8
+      - name: 'Interface {#IFNAME}: errors and discards'
+        width: '900'
+        height: '200'
+        graph_items:
+        - drawtype: SINGLE_LINE
+          color: EF5350
+          item:
+            host: NETGEAR FastPath SNMP by MIB
+            key: net.if.in.errors[{#IFINDEX}]
+        - drawtype: SINGLE_LINE
+          color: FFA726
+          item:
+            host: NETGEAR FastPath SNMP by MIB
+            key: net.if.out.errors[{#IFINDEX}]
+        - drawtype: SINGLE_LINE
+          color: AB47BC
+          item:
+            host: NETGEAR FastPath SNMP by MIB
+            key: net.if.in.discards[{#IFINDEX}]
+        - drawtype: SINGLE_LINE
+          color: 26A69A
+          item:
+            host: NETGEAR FastPath SNMP by MIB
+            key: net.if.out.discards[{#IFINDEX}]
+        uuid: 2c6896462b045b9a96a4c395e69adbb1
+      uuid: 0ada64a03bb35296932b692a0dadf82a
+    - name: Temperature sensors discovery
+      type: SNMP_AGENT
+      key: netgear.temp.discovery
+      delay: 1h
+      snmp_oid: discovery[{#SNMPINDEX},NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesTempSensorIndex]
+      item_prototypes:
+      - name: 'Temperature sensor {#SNMPINDEX}: state'
+        type: SNMP_AGENT
+        key: netgear.temp.state[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesTempSensorState.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: box-services
+        uuid: 50947eeb56a3500c96cb17cf7d2199e4
+      - name: 'Temperature sensor {#SNMPINDEX}: value'
+        type: SNMP_AGENT
+        key: netgear.temp.value[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: FLOAT
+        snmp_oid: NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesTempSensorTemperature.{#SNMPINDEX}
+        units: C
+        tags:
+        - tag: component
+          value: box-services
+        uuid: e8a53d9fc8275fc2ababf952e82ca7fb
+      trigger_prototypes:
+      - name: 'Temperature sensor {#SNMPINDEX}: abnormal'
+        expression: min(/NETGEAR FastPath SNMP by MIB/netgear.temp.state[{#SNMPINDEX}],5m)<>1
+        priority: HIGH
+        tags:
+        - tag: scope
+          value: availability
+        uuid: 2037ee3e10085625b0c1ef415fbbb510
+      - name: 'Temperature sensor {#SNMPINDEX}: warning'
+        expression: min(/NETGEAR FastPath SNMP by MIB/netgear.temp.value[{#SNMPINDEX}],5m)>={$TEMP_WARN}
+        priority: WARNING
+        tags:
+        - tag: scope
+          value: availability
+        uuid: e1b70890fa0f57039b92cc8fbff58706
+      - name: 'Temperature sensor {#SNMPINDEX}: critical'
+        expression: min(/NETGEAR FastPath SNMP by MIB/netgear.temp.value[{#SNMPINDEX}],5m)>={$TEMP_CRIT}
+        priority: DISASTER
+        tags:
+        - tag: scope
+          value: availability
+        uuid: 4bb18542fcd25e9ea4f906e7e064916d
+      uuid: 7b1f82014cf553b9b84c0a7605986b57
+    - name: Fans discovery
+      type: SNMP_AGENT
+      key: netgear.fan.discovery
+      delay: 1h
+      snmp_oid: discovery[{#SNMPINDEX},NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesFansIndex]
+      item_prototypes:
+      - name: 'Fan {#SNMPINDEX}: state'
+        type: SNMP_AGENT
+        key: netgear.fan.state[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesFanItemState.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: box-services
+        uuid: 44198c8ef1ce56f9b6dd06c0bc0d644a
+        description: 'NETGEAR BoxServices fan state: 1 notpresent, 2 operational,
+          3 failed, 4 powering, 5 nopower, 6 notpowering, 7 incompatible.'
+      - name: 'Fan {#SNMPINDEX}: speed'
+        type: SNMP_AGENT
+        key: netgear.fan.speed[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: TEXT
+        snmp_oid: NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesFanSpeed.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: box-services
+        uuid: 023943bda33e5f38a9f83bf6a9954a2c
+      trigger_prototypes:
+      - name: 'Fan {#SNMPINDEX}: failed'
+        expression: last(/NETGEAR FastPath SNMP by MIB/netgear.fan.state[{#SNMPINDEX}])<>2
+        priority: HIGH
+        tags:
+        - tag: scope
+          value: availability
+        uuid: 1ac8297df887560aad6ad2220c4dc716
+      uuid: 8bac68810bec51b78a939252aa5ac1b2
+    - name: Power supplies discovery
+      type: SNMP_AGENT
+      key: netgear.psu.discovery
+      delay: 1h
+      snmp_oid: discovery[{#SNMPINDEX},NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesPowSupplyIndex]
+      item_prototypes:
+      - name: 'Power supply {#SNMPINDEX}: state'
+        type: SNMP_AGENT
+        key: netgear.psu.state[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: NETGEAR-BOXSERVICES-PRIVATE-MIB::boxServicesPowSupplyItemState.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: box-services
+        uuid: 04b69909ccfa5f08b289c4a7bb869478
+        description: 'NETGEAR BoxServices PSU state: 1 notpresent, 2 operational,
+          3 failed, 4 powering, 5 nopower, 6 notpowering, 7 incompatible.'
+      trigger_prototypes:
+      - name: 'Power supply {#SNMPINDEX}: failed'
+        expression: last(/NETGEAR FastPath SNMP by MIB/netgear.psu.state[{#SNMPINDEX}])<>2
+        priority: HIGH
+        tags:
+        - tag: scope
+          value: availability
+        uuid: 2ae60741df2f5f6ea5cc9f2d7094a4e3
+      uuid: c884ac2a052a564cacdb57a1eae09ef5
+    - name: LLDP neighbors discovery
+      type: SNMP_AGENT
+      key: lldp.neighbor.discovery
+      delay: 1h
+      snmp_oid: discovery[{#SNMPINDEX},LLDP-MIB::lldpRemLocalPortNum]
+      item_prototypes:
+      - name: 'LLDP {#SNMPINDEX}: remote chassis'
+        type: SNMP_AGENT
+        key: lldp.remote.chassis[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: TEXT
+        snmp_oid: LLDP-MIB::lldpRemChassisId.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: lldp
+        uuid: f96c86032c7956418370098bdda99b01
+      - name: 'LLDP {#SNMPINDEX}: remote port'
+        type: SNMP_AGENT
+        key: lldp.remote.port[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: TEXT
+        snmp_oid: LLDP-MIB::lldpRemPortId.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: lldp
+        uuid: 565b0e73cb9e5fbba12e2359bb66b6ec
+      - name: 'LLDP {#SNMPINDEX}: remote system'
+        type: SNMP_AGENT
+        key: lldp.remote.sysname[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: TEXT
+        snmp_oid: LLDP-MIB::lldpRemSysName.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: lldp
+        uuid: 4a56180453e1518c8f1c79ddd8c593c2
+      trigger_prototypes: []
+      uuid: ef2a4c29e30752048374a59b9fee9e6d
+    - name: VLAN discovery (Q-BRIDGE-MIB)
+      type: SNMP_AGENT
+      key: vlan.discovery
+      delay: 6h
+      snmp_oid: discovery[{#SNMPINDEX},Q-BRIDGE-MIB::dot1qVlanIndex]
+      item_prototypes:
+      - name: '{#SNMPINDEX} status'
+        type: SNMP_AGENT
+        key: vlan.discovery.status[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: Q-BRIDGE-MIB::dot1qVlanStatus.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: vlan
+        uuid: 432d923e3ec356f283b96116fcecf9c2
+      uuid: 913e114df027519b821fc6ce6b3f5240
+    - name: LAG discovery (LAG-MIB)
+      type: SNMP_AGENT
+      key: lag.discovery
+      delay: 6h
+      snmp_oid: discovery[{#SNMPINDEX},LAG-MIB::dot3adAggIndex]
+      item_prototypes:
+      - name: '{#SNMPINDEX} actor system priority'
+        type: SNMP_AGENT
+        key: lag.discovery.priority[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: LAG-MIB::dot3adAggActorSystemPriority.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: lag
+        uuid: eddca38730de55a983d4b205dffaf3eb
+      uuid: eace0efb4c3752c3bc30299929a7cdfb
+    - name: RMON alarms discovery
+      type: SNMP_AGENT
+      key: rmon.alarm.discovery
+      delay: 6h
+      snmp_oid: discovery[{#SNMPINDEX},RMON-MIB::alarmIndex]
+      item_prototypes:
+      - name: '{#SNMPINDEX} status'
+        type: SNMP_AGENT
+        key: rmon.alarm.discovery.status[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: UNSIGNED
+        snmp_oid: RMON-MIB::alarmStatus.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: rmon
+        uuid: 5c70a74b5a565f74a5acadcc622cfe91
+      uuid: 85b56dc64b235992a63212a9cd9ded07
+    - name: CPU process discovery (NETGEAR-SWITCHING-MIB)
+      type: SNMP_AGENT
+      key: cpu.process.discovery
+      delay: 1h
+      snmp_oid: discovery[{#SNMPINDEX},NETGEAR-SWITCHING-MIB::agentSwitchCpuProcessIndex,{#CPUNAME},NETGEAR-SWITCHING-MIB::agentSwitchCpuProcessName]
+      item_prototypes:
+      - name: 'CPU process {#CPUNAME}: utilization'
+        type: SNMP_AGENT
+        key: cpu.process.util[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: FLOAT
+        units: '%'
+        snmp_oid: NETGEAR-SWITCHING-MIB::agentSwitchCpuProcessPercentageUtilization.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: cpu-memory
+        uuid: fe97745571075a2599dff18813872c54
+      - name: 'CPU process {#CPUNAME}: total utilization'
+        type: SNMP_AGENT
+        key: cpu.process.total[{#SNMPINDEX}]
+        delay: 1m
+        history: 7d
+        trends: 90d
+        value_type: FLOAT
+        units: '%'
+        snmp_oid: NETGEAR-SWITCHING-MIB::agentSwitchCpuProcessTotalUtilization.{#SNMPINDEX}
+        tags:
+        - tag: component
+          value: cpu-memory
+        uuid: 7eca2f2bde5455ebb0e04b6bdbc778b8
+      trigger_prototypes:
+      - name: 'CPU process {#CPUNAME}: high utilization'
+        expression: avg(/NETGEAR FastPath SNMP by MIB/cpu.process.util[{#SNMPINDEX}],5m)>90
+        priority: HIGH
+        tags:
+        - tag: scope
+          value: performance
+        uuid: 642a81cf4a3553f2883d50233f51d6d7
+      uuid: 8aa7f24d884557898416cdf9d0cd59e7
+    uuid: e819afc012bf532fa6c138b368955fb4
+  triggers:
+  - name: SNMP bad community names detected
+    expression: min(/NETGEAR FastPath SNMP by MIB/snmp.in.badCommunityNames,5m)>0
+    priority: WARNING
+    description: The device is receiving SNMP requests with invalid community names.
+    tags:
+    - tag: scope
+      value: security
+    uuid: 8f2b540e1ea15b8e9877113391c13181
+  - name: Device uptime reset
+    expression: change(/NETGEAR FastPath SNMP by MIB/system.uptime)<0
+    priority: HIGH
+    description: The SNMP sysUpTime decreased, indicating a reboot or SNMP agent restart.
+    tags:
+    - tag: scope
+      value: availability
+    uuid: 2e41f8a229ba56c8a3dfba0bfeab55ea
+  - name: Log messages dropped
+    expression: change(/NETGEAR FastPath SNMP by MIB/logging.messages.dropped)>0
+    priority: WARNING
+    description: The device dropped one or more log messages.
+    tags:
+    - tag: scope
+      value: performance
+    uuid: 26e931d3057c58dca7d0f2c8e5e63c92
+  - name: Port-security violations detected
+    expression: change(/NETGEAR FastPath SNMP by MIB/portsecurity.violations)>0
+    priority: HIGH
+    description: A port-security violation counter increased.
+    tags:
+    - tag: scope
+      value: security
+    uuid: f5d38b5cdcfd56209bcf87b50a8db86d
+  - name: RADIUS rejects detected
+    expression: change(/NETGEAR FastPath SNMP by MIB/radius.access.rejects)>0
+    priority: WARNING
+    description: RADIUS access rejects increased.
+    tags:
+    - tag: scope
+      value: security
+    uuid: 645d772b02dd57ba8ad17e872b16f75e
+  graphs:
+  - name: System SNMP counters
+    width: '900'
+    height: '200'
+    yaxismin: '0'
+    show_work_period: '0'
+    show_triggers: '1'
+    graph_items:
+    - drawtype: LINE
+      color: 42A5F5
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: snmp.in.pkts
+    - drawtype: LINE
+      color: EF5350
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: snmp.out.pkts
+    - drawtype: LINE
+      color: FFA726
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: snmp.in.badCommunityNames
+    uuid: 8cf925f832ec52bf86ec06afddcca4f2
+  - name: System log and security events
+    width: '900'
+    height: '200'
+    yaxismin: '0'
+    show_work_period: '0'
+    show_triggers: '1'
+    graph_items:
+    - drawtype: LINE
+      color: AB47BC
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: logging.messages.received
+    - drawtype: LINE
+      color: EF5350
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: logging.messages.dropped
+    - drawtype: LINE
+      color: FF7043
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: portsecurity.violations
+    - drawtype: LINE
+      color: 26A69A
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: radius.access.rejects
+    uuid: 308bb93b74d053c095b885738e4caf56
+  - name: Memory and green energy
+    width: '900'
+    height: '200'
+    yaxismin: '0'
+    show_work_period: '0'
+    show_triggers: '1'
+    graph_items:
+    - drawtype: LINE
+      color: 42A5F5
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: cpu.process.memory.free
+    - drawtype: LINE
+      color: 66BB6A
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: cpu.process.memory.available
+    - drawtype: LINE
+      color: FFA726
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: green.power.consumption
+    - drawtype: LINE
+      color: AB47BC
+      item:
+        host: NETGEAR FastPath SNMP by MIB
+        key: green.power.saving
+    uuid: 4796e6aefba6558ab5040642f5240d2f
